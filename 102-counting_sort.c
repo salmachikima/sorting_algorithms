@@ -1,53 +1,46 @@
 #include "sort.h"
-#include <stdlib.h>
-
 /**
  * counting_sort - sorts an array of ints
- * using the Counting sort algorithm in ascendance
- * @array: sorted array
+ * using the Counting sort algorithm
+ * @array: pointer to array
  * @size: array size
- * Return: nothing
- */
+ **/
 
 void counting_sort(int *array, size_t size)
 {
-	int *arrayc;
-	int g;
-	size_t s;
-	size_t r;
-	size_t arraysize;
+	int s, r;
+	int *count_array, *a;
+	size_t d;
 
-	if (array == NULL || size <= 1)
+	if (!array || size < 2)
 		return;
-	arraysize = array[0];
-	for (s = 0; array[s]; s++)
+	s = array[0];
+	for (d = 0; d < size; d++)
 	{
-		if (array[s] > (int)arraysize)
-			arraysize = array[s];
+		if (array[d] > s)
+			s = array[d];
 	}
-
-	arraysize += 1;
-
-	arrayc = malloc(arraysize * sizeof(int *));
-	if (arrayc == NULL)
-		return;
-
-	for (s = 0; s < arraysize; s++)
-		arrayc[s] = 0;
-
-	for (s = 0; s < size; s++)
-		arrayc[array[s]] += 1;
-
-	for (s = 0; s <= arraysize; s++)
-		arrayc[s] += arrayc[s - 1];
-
-	print_array(arrayc, arraysize);
-
-	for (s = 1, r = 0; s <= arraysize; s++)
-		if (arrayc[s] != arrayc[s - 1])
-		{
-			for (g = 0; g < arrayc[s] - arrayc[s - 1]; g++)
-				array[r++] = s;
-		}
-	free(arrayc);
+	count_array = calloc((s + 1), sizeof(int));
+	for (d = 0; d < size; d++)
+	{
+		count_array[array[d]]++;
+	}
+	for (r = 1; r < s; r++)
+	{
+		count_array[r + 1] += count_array[r];
+	}
+	print_array(count_array, s + 1);
+	a = malloc(sizeof(int) * size);
+	for (d = 0; d < size; d++)
+	{
+		count_array[array[d]]--;
+		a[count_array[array[d]]] = array[d];
+	}
+	for (d = 0; d < size; d++)
+	{
+		array[d] = a[d];
+	}
+	free(a);
+	free(count_array);
 }
+
