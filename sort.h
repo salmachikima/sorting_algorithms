@@ -29,5 +29,6 @@ void swap(int **array, int first_index, int second_index);
 int split(int *arr, int left, int right, size_t size);
 void sort_alg(int *arr, int left, int right, size_t size);
 void shell_sort(int *array, size_t size);
+void counting_sort(int *array, size_t size);
 
 #endif
