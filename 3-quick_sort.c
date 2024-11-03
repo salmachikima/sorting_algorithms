@@ -44,7 +44,7 @@ int split(int *arr, int left, int right, size_t size)
 {
 	int r;
 	int s;
-	int p; 
+	int p;
 	int t;
 
 	p = arr[right];
